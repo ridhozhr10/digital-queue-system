@@ -81,13 +81,12 @@ components:
     LoginRequest:
       type: object
       required:
-        - email
+        - user_identity
         - password
       properties:
-        email:
+        user_identity:
           type: string
-          format: email
-          example: user@example.com
+          example: john.doe
         password:
           type: string
           format: password
@@ -101,11 +100,11 @@ components:
     RegisterRequest:
       type: object
       required:
-        - name
+        - username
         - email
         - password
       properties:
-        name:
+        username:
           type: string
           example: John Doe
         email:

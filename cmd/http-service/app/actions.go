@@ -2,6 +2,8 @@ package app
 
 import (
 	"digital-queue-system/internal/http"
+	"digital-queue-system/internal/repository"
+	"digital-queue-system/internal/service"
 	"digital-queue-system/pkg/logger"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +31,21 @@ func serveActions(c *cli.Context) error {
 		r.StaticFile("/swagger.yaml", "./api/auth-service.yaml")
 	}
 
-	http.SetupRoutes(r)
+	connStr := c.String("database-url")
+	if connStr == "" {
+		log.Fatal().Msg("DATABASE_URL environment variable is not set")
+	}
+
+	pgRepo, err := repository.NewPostgresRepository(connStr)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to connect to database")
+	}
+
+	userRepo := repository.NewUserRepository(pgRepo)
+	jwtSecret := c.String("jwt-secret")
+	authSvc := service.NewAuthService(userRepo, jwtSecret)
+
+	http.SetupAuthRoutes(r, authSvc)
 	port := c.String("port")
 	log.Info().Msgf("Starting server on port %s", port)
 	r.Run(":" + port)

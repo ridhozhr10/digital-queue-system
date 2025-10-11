@@ -14,7 +14,7 @@ func NewApp() *cli.App {
 		Before: beforeActions,
 		Commands: []*cli.Command{
 			{
-				Name:   "auth-service",
+				Name:   "auth",
 				Usage:  "Start auth service web server",
 				Flags:  serveFlags,
 				Action: serveActions,

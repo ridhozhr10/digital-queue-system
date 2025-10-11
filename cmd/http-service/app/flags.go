@@ -17,4 +17,17 @@ var serveFlags = []cli.Flag{
 		Usage:   "Environment mode to use (true = production)",
 		EnvVars: []string{"PRODUCTION"},
 	},
+	&cli.StringFlag{
+		Name:    "database-url",
+		Aliases: []string{"db-url"},
+		Usage:   "Database connection string",
+		EnvVars: []string{"DATABASE_URL"},
+	},
+	&cli.StringFlag{
+		Name:    "jwt-secret",
+		Aliases: []string{"jwt"},
+		Usage:   "JWT secret key for authentication",
+		EnvVars: []string{"JWT_SECRET"},
+		Required: true,
+	},
 }

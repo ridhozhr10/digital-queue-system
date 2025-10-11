@@ -1,0 +1,29 @@
+version: "3.8"
+
+# This file defines a PostgreSQL container for local development and running your migrations.
+services:
+  # Service name, used as the hostname for your Go application connection string
+  postgres_db:
+    image: postgres:15-alpine # Using a lightweight image for development
+    container_name: rbac_postgres_db
+    restart: always
+    ports:
+      # Maps local port 5432 to the container's PostgreSQL port
+      - "5432:5432"
+    environment:
+      # Custom database environment variables (update these for production)
+      POSTGRES_USER: queuesystem
+      POSTGRES_PASSWORD: qweQWE123!@#
+      POSTGRES_DB: queuesystem
+      # Optional: Set the timezone to UTC for consistency
+      TZ: "UTC"
+    volumes:
+      # Persists the PostgreSQL data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+      # Mount the migrations folder so a migration tool (like golang-migrate or goose) can access them
+      # Uncomment the line below if your migration tool needs direct access to the files inside the DB container
+      # - ./migrations:/docker-entrypoint-initdb.d
+
+# Define the named volume for persistence
+volumes:
+  postgres_data:
