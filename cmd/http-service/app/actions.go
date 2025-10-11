@@ -21,19 +21,17 @@ func beforeActions(c *cli.Context) error {
 
 func serveActions(c *cli.Context) error {
 	r := gin.Default()
+
+	if c.Bool("production") {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		r.Static("/swagger-ui", "./third_party/swagger-ui")
+		r.StaticFile("/swagger.yaml", "./api/auth-service.yaml")
+	}
+
 	http.SetupRoutes(r)
 	port := c.String("port")
 	log.Info().Msgf("Starting server on port %s", port)
 	r.Run(":" + port)
-	return nil
-}
-
-func swaggerAction(c *cli.Context) error {
-	r := gin.Default()
-	r.Static("/swagger-ui", "./third_party/swagger-ui")
-	r.StaticFile("/swagger.yaml", "./api/auth-service.yaml")
-	swaggerPort := c.String("port")
-	log.Info().Msgf("Swagger UI available at http://localhost:%s/swagger-ui", swaggerPort)
-	r.Run(":" + swaggerPort)
 	return nil
 }

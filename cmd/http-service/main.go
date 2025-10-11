@@ -1,7 +1,7 @@
 package main
 
 import (
-	"digital-queue-system/cmd/auth-service/app"
+	"digital-queue-system/cmd/http-service/app"
 )
 
 func main() {

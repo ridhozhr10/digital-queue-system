@@ -14,16 +14,10 @@ func NewApp() *cli.App {
 		Before: beforeActions,
 		Commands: []*cli.Command{
 			{
-				Name:   "serve",
-				Usage:  "Start the web server",
+				Name:   "auth-service",
+				Usage:  "Start auth service web server",
 				Flags:  serveFlags,
 				Action: serveActions,
-			},
-			{
-				Name:   "swagger",
-				Usage:  "Serve Swagger for auth-service api",
-				Flags:  swaggerFlags,
-				Action: swaggerAction,
 			},
 		},
 	}

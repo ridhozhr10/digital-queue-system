@@ -10,14 +10,11 @@ var serveFlags = []cli.Flag{
 		Usage:   "Port to run the server on",
 		EnvVars: []string{"PORT"},
 	},
-}
-
-var swaggerFlags = []cli.Flag{
-	&cli.StringFlag{
-		Name:    "port",
-		Aliases: []string{"p"},
-		Value:   "8081",
-		Usage:   "Port to run the Swagger UI server on",
-		EnvVars: []string{"SWAGGER_PORT"},
+	&cli.BoolFlag{
+		Name:    "production",
+		Aliases: []string{"prod"},
+		Value:   false,
+		Usage:   "Environment mode to use (true = production)",
+		EnvVars: []string{"PRODUCTION"},
 	},
 }
