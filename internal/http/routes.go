@@ -2,6 +2,7 @@ package http
 
 import (
 	"digital-queue-system/internal/auth"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -9,16 +10,14 @@ import (
 
 func SetupRoutes(r *gin.Engine) {
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		// AllowOriginFunc: func(origin string) bool {
-		// 	// swagger run on localhost:8081
-		// 	return origin == "localhost:8081"
-		// },
-		// MaxAge: 12 * time.Hour,
+		AllowOrigins: []string{
+			"http://localhost:8081",
+		},
+		MaxAge: 12 * time.Hour,
 	}))
 
 	r.GET("/ping", func(c *gin.Context) {
