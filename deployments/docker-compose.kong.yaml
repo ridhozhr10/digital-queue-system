@@ -1,0 +1,60 @@
+version: "3.9"
+
+networks:
+  app-net:
+
+services:
+  kong-db:
+    image: postgres:15-alpine
+    container_name: kong-db
+    restart: always
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong
+      POSTGRES_DB: kong
+    volumes:
+      - kong-db-data:/var/lib/postgresql/data
+    networks:
+      - app-net
+
+  kong-migrations:
+    image: kong:latest
+    container_name: kong-migrations
+    command: "kong migrations bootstrap"
+    restart: on-failure
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-db
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+    depends_on:
+      - kong-db
+    networks:
+      - app-net
+
+  kong-gw:
+    image: kong:latest
+    container_name: kong-gw
+    restart: always
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-db
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_ADMIN_GUI_URL: http://localhost:8002
+    ports:
+      - "8000:8000" # Kong proxy
+      - "8001:8001" # Kong admin API
+      - "8002:8002" # Kong admin GUI
+    depends_on:
+      - kong-migrations
+    networks:
+      - app-net
+
+volumes:
+  kong-db-data:

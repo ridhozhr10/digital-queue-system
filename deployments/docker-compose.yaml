@@ -1,6 +1,9 @@
-version: "3.8"
+version: "3.9"
 
-# This file defines a PostgreSQL container for local development and running your migrations.
+networks:
+  app-net:
+    driver: bridge
+
 services:
   # Service name, used as the hostname for your Go application connection string
   postgres_db:
@@ -23,7 +26,8 @@ services:
       # Mount the migrations folder so a migration tool (like golang-migrate or goose) can access them
       # Uncomment the line below if your migration tool needs direct access to the files inside the DB container
       # - ./migrations:/docker-entrypoint-initdb.d
+    networks:
+      - app-net
 
-# Define the named volume for persistence
 volumes:
   postgres_data:
