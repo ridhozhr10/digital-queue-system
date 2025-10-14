@@ -30,6 +30,36 @@ After running `make compose-up`, the following services will be available:
 - **Kong Admin GUI:** `http://localhost:8002`
 - **Application Database (PostgreSQL):** Accessible on port `5432`.
 
+## Database Migrations
+
+This project uses [dbmate](https://github.com/amacneil/dbmate) to manage database schema changes. The migration files are located in the `/db/migrations` directory.
+
+Commands are run using `npx` from the project root, which will automatically use the `DATABASE_URL` defined in your `.env` file.
+
+### Create a new migration
+
+To create a new SQL migration file, run the following command, replacing `<migration_name>` with a descriptive name for your migration (e.g., `add_users_table`).
+
+```bash
+npx dbmate new <migration_name>
+```
+
+### Apply migrations
+
+To apply all pending migrations to your database, run:
+
+```bash
+npx dbmate up
+```
+
+### Rollback migrations
+
+To roll back the most recent migration, run:
+
+```bash
+npx dbmate down
+```
+
 ## Running the Backend Manually
 
 If you prefer to run the Go backend service outside of Docker, you can use the following commands.
