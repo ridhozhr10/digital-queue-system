@@ -76,6 +76,37 @@ paths:
                   message:
                     type: string
                     example: User with this email already exists
+  /internal/validate:
+    post:
+      summary: Validate JWT token
+      operationId: validateToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateRequest'
+      responses:
+        '200':
+          description: Token is valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Token is valid
+        '401':
+          description: Unauthorized - Invalid or expired token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Invalid or expired token
 components:
   schemas:
     LoginRequest:
@@ -121,3 +152,11 @@ components:
         message:
           type: string
           example: User registered successfully
+    ValidateRequest:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
