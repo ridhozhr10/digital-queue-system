@@ -2,6 +2,7 @@ package http
 
 import (
 	"digital-queue-system/internal/service"
+	"digital-queue-system/pkg/validator"
 	"errors"
 	"net/http"
 
@@ -23,8 +24,8 @@ func (h *AuthHandler) Login(c *gin.Context) {
 		return
 	}
 
-	if err := validate.Struct(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"errors": formatValidationErrors(err)})
+	if err := validator.Validate.Struct(req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": validator.FormatValidationErrors(err)})
 		return
 	}
 
@@ -48,8 +49,8 @@ func (h *AuthHandler) Register(c *gin.Context) {
 		return
 	}
 
-	if err := validate.Struct(req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"errors": formatValidationErrors(err)})
+	if err := validator.Validate.Struct(req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errors": validator.FormatValidationErrors(err)})
 		return	}
 
 	if err := h.authSvc.Register(c, req.Username, req.Email, req.Password); err != nil {

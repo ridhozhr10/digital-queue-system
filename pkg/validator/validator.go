@@ -1,4 +1,4 @@
-package http
+package validator
 
 import (
 	"fmt"
@@ -6,11 +6,11 @@ import (
 	"github.com/go-playground/validator/v10"
 )
 
-var validate *validator.Validate
+var Validate *validator.Validate
 
 func init() {
-	validate = validator.New()
-	validate.RegisterValidation("user_identity", isValidUserIdentity)
+	Validate = validator.New()
+	Validate.RegisterValidation("user_identity", isValidUserIdentity)
 }
 
 func isValidUserIdentity(fl validator.FieldLevel) bool {
@@ -29,7 +29,7 @@ func isValidUserIdentity(fl validator.FieldLevel) bool {
 	return false
 }
 
-func formatValidationErrors(err error) map[string]string {
+func FormatValidationErrors(err error) map[string]string {
 	errors := make(map[string]string)
 	for _, err := range err.(validator.ValidationErrors) {
 		errors[err.Field()] = customErrorMessage(err)
@@ -48,7 +48,7 @@ func customErrorMessage(fe validator.FieldError) string {
 	case "email":
 		return "Invalid email format"
 	case "alphanum":
-		return "This field must contain only alphanumeric characters"
+		return "This field must be contain only alphanumeric characters"
 	case "user_identity":
 		return "This field must be valid email or username"
 	default:
