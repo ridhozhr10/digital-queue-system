@@ -36,7 +36,7 @@ var userServeFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:    "port",
 		Aliases: []string{"p"},
-		Value:   "8082",
+		Value:   "8081",
 		Usage:   "Port to run the server on",
 		EnvVars: []string{"USER_SVC_PORT"},
 	},

@@ -62,7 +62,8 @@ func userServeAction(c *cli.Context) error {
 	}
 
 	r.GET("/users", func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{"message": "User service is running!"})
+
+		ctx.JSON(200, gin.H{"message": "User service is running!", "header": ctx.Request.Header})
 	})
 
 	port := c.String("port")
