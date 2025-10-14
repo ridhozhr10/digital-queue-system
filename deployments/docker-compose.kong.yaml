@@ -47,10 +47,10 @@ services:
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_ADMIN_LISTEN: 0.0.0.0:8001
       KONG_ADMIN_GUI_URL: http://localhost:8002
-      KONG_PLUGINS: bundled,jwt,jwt-claims
+      KONG_PLUGINS: bundled,jwt,jwt-claims,opa-auth
     volumes:
       - ../configs/kong/plugins/jwt-claims:/usr/local/share/lua/5.1/kong/plugins/jwt-claims
-    # - ./configs/kong/plugins/jwt-headers:/usr/local/share/lua/5.1/kong/plugins/jwt-headers
+      - ../configs/kong/plugins/opa-auth:/usr/local/share/lua/5.1/kong/plugins/opa-auth
     ports:
       - "8000:8000" # Kong proxy
       - "8001:8001" # Kong admin API

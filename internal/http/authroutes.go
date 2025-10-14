@@ -27,6 +27,11 @@ func SetupAuthRoutes(r *gin.Engine, authSvc *service.AuthService) {
 	})
 
 	authHandler := NewAuthHandler(authSvc)
+	internalRoutes := r.Group("/internal")
+	{
+		internalRoutes.POST("/validate", authHandler.Validate)
+	}
+
 	authRoutes := r.Group("")
 	{
 		authRoutes.POST("/login", authHandler.Login)

@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rs/zerolog/log"
 )
 
 type AuthHandler struct {
@@ -51,7 +52,8 @@ func (h *AuthHandler) Register(c *gin.Context) {
 
 	if err := validator.Validate.Struct(req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"errors": validator.FormatValidationErrors(err)})
-		return	}
+		return
+	}
 
 	if err := h.authSvc.Register(c, req.Username, req.Email, req.Password); err != nil {
 		if errors.Is(err, service.ErrUserAlreadyExists) {
@@ -65,6 +67,29 @@ func (h *AuthHandler) Register(c *gin.Context) {
 	c.JSON(http.StatusOK, RegisterResponse{
 		Message: "registration successful",
 	})
+}
+
+func (h *AuthHandler) Validate(c *gin.Context) {
+	var req ValidateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.String(http.StatusBadRequest, "Invalid input")
+		return
+	}
+
+	log.Info().Any("request", req).Msg("hehe dapet nih")
+	// TODO: implement ACL
+	c.JSON(http.StatusOK, ValidateResponse{Allow: true})
+}
+
+type ValidateRequest struct {
+	Path    string `json:"path"`
+	Method  string `json:"method"`
+	Subject string `json:"subject"`
+	Role    string `json:"role"`
+}
+
+type ValidateResponse struct {
+	Allow bool `json:"allow"`
 }
 
 type LoginRequest struct {

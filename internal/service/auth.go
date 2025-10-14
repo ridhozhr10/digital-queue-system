@@ -42,11 +42,12 @@ func (s *AuthService) Login(ctx context.Context, userIdentity, password string) 
 		return "", ErrInvalidCredentials
 	}
 
+	// TODO: implement refresh token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"iss":      "auth-service",
-		"user_id":  user.ID,
-		"username": user.Username,
-		"exp":      time.Now().Add(time.Minute * 10).Unix(), // Token expires in 24 hours
+		"iss":  "auth-service",
+		"role": "Admin", // TODO: hardcoded for now, should get it from roles table
+		"sub":  user.ID,
+		"exp":  time.Now().Add(time.Minute * 10).Unix(),
 	})
 
 	tokenString, err := token.SignedString([]byte(s.jwtSecret))
