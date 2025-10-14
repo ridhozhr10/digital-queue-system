@@ -12,7 +12,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func beforeActions(c *cli.Context) error {
+func beforeAction(c *cli.Context) error {
 	err := godotenv.Load()
 	if err != nil {
 		log.Warn().Msg("Error loading .env file, using default environment variables")
@@ -21,7 +21,7 @@ func beforeActions(c *cli.Context) error {
 	return nil
 }
 
-func serveActions(c *cli.Context) error {
+func authServeAction(c *cli.Context) error {
 	r := gin.Default()
 
 	if c.Bool("production") {
@@ -48,6 +48,25 @@ func serveActions(c *cli.Context) error {
 	http.SetupAuthRoutes(r, authSvc)
 	port := c.String("port")
 	log.Info().Msgf("Starting server on port %s", port)
+	r.Run(":" + port)
+	return nil
+}
+
+func userServeAction(c *cli.Context) error {
+	r := gin.Default()
+
+	if c.Bool("production") {
+		gin.SetMode(gin.ReleaseMode)
+	} else {
+		// Add swagger-ui for user-service if needed
+	}
+
+	r.GET("/users", func(ctx *gin.Context) {
+		ctx.JSON(200, gin.H{"message": "User service is running!"})
+	})
+
+	port := c.String("port")
+	log.Info().Msgf("Starting user service on port %s", port)
 	r.Run(":" + port)
 	return nil
 }

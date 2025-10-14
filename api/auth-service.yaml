@@ -22,7 +22,7 @@ paths:
                   message:
                     type: string
                     example: pong
-  /auth/login:
+  /login:
     post:
       summary: User login
       operationId: loginUser
@@ -49,7 +49,7 @@ paths:
                   message:
                     type: string
                     example: Invalid email or password
-  /auth/register:
+  /register:
     post:
       summary: User registration
       operationId: registerUser

@@ -11,13 +11,19 @@ func NewApp() *cli.App {
 	app := &cli.App{
 		Name:   "auth-service",
 		Usage:  "Authentication service for the digital queue system",
-		Before: beforeActions,
+		Before: beforeAction,
 		Commands: []*cli.Command{
 			{
-				Name:   "auth",
+				Name:   "auth-service",
 				Usage:  "Start auth service web server",
-				Flags:  serveFlags,
-				Action: serveActions,
+				Flags:  authServeFlags,
+				Action: authServeAction,
+			},
+			{
+				Name:   "user-service",
+				Usage:  "Start user service web server",
+				Flags:  userServeFlags,
+				Action: userServeAction,
 			},
 		},
 	}

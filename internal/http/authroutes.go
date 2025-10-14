@@ -27,7 +27,7 @@ func SetupAuthRoutes(r *gin.Engine, authSvc *service.AuthService) {
 	})
 
 	authHandler := NewAuthHandler(authSvc)
-	authRoutes := r.Group("/auth")
+	authRoutes := r.Group("")
 	{
 		authRoutes.POST("/login", authHandler.Login)
 		authRoutes.POST("/register", authHandler.Register)
