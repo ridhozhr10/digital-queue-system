@@ -6,6 +6,8 @@ info:
 servers:
   - url: http://localhost:8080
     description: Local development server
+  - url: http://localhost:8000
+    description: Local development on KONG gateway server
 paths:
   /ping:
     get:
@@ -22,7 +24,7 @@ paths:
                   message:
                     type: string
                     example: pong
-  /login:
+  /auth/login:
     post:
       summary: User login
       operationId: loginUser
@@ -49,7 +51,7 @@ paths:
                   message:
                     type: string
                     example: Invalid email or password
-  /register:
+  /auth/register:
     post:
       summary: User registration
       operationId: registerUser
@@ -157,6 +159,15 @@ components:
       required:
         - token
       properties:
-        token:
+        path:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+          example: /api/users
+        method:
+          type: string
+          example: GET
+        subject:
+          type: string
+          example: 1
+        role:
+          type: string
+          example: admin

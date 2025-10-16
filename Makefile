@@ -22,3 +22,8 @@ compose-logs:
 compose-ps:
 	@echo "Listing running services..."
 	docker-compose $(COMPOSE_FILES) ps
+
+# Rebuild and start all services
+compose-rebuild:
+	@echo "Rebuilding and starting all services..."
+	docker-compose $(COMPOSE_FILES) up -d --build
