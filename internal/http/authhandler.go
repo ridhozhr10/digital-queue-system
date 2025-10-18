@@ -78,7 +78,7 @@ func (h *AuthHandler) Validate(c *gin.Context) {
 
 	log.Info().Any("request", req).Msg("hehe dapet nih")
 	// TODO: implement ACL
-	c.JSON(http.StatusOK, ValidateResponse{Allow: true})
+	c.JSON(http.StatusOK, ValidateResponse{Allow: req.Role == "Admin"})
 }
 
 type ValidateRequest struct {

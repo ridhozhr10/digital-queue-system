@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: User Service API
+  version: 1.0.0
+  description: API documentation for the User Service of the Digital Queue System.
+servers:
+  - url: http://localhost:8081
+    description: Local development server
+  - url: http://localhost:8000/v1/users
+    description: Kong Gateway
+paths:
+  /users:
+    get:
+      summary: Get user information
+      security:
+        - bearerAuth: []
+      operationId: getUsers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: User service is running!
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT # optional, arbitrary value for documentation purposes

@@ -58,13 +58,11 @@ func userServeAction(c *cli.Context) error {
 	if c.Bool("production") {
 		gin.SetMode(gin.ReleaseMode)
 	} else {
-		// Add swagger-ui for user-service if needed
+		r.Static("/swagger-ui", "./third_party/swagger-ui")
+		r.StaticFile("/swagger.yaml", "./api/user-service.yaml")
 	}
 
-	r.GET("/users", func(ctx *gin.Context) {
-
-		ctx.JSON(200, gin.H{"message": "User service is running!", "header": ctx.Request.Header})
-	})
+	http.SetupUserRoutes(r)
 
 	port := c.String("port")
 	log.Info().Msgf("Starting user service on port %s", port)
