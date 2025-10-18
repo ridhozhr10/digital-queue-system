@@ -1,5 +1,5 @@
 # Define the compose files to be used
-COMPOSE_FILES := -f deployments/docker-compose.yaml -f deployments/docker-compose.kong.yaml -f deployments/docker-compose.apisix.yaml
+COMPOSE_FILES := -f deployments/docker-compose.yaml -f deployments/docker-compose.kong.yaml
 
 .PHONY: up down logs ps
 
