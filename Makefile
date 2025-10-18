@@ -27,3 +27,8 @@ compose-ps:
 compose-rebuild:
 	@echo "Rebuilding and starting all services..."
 	docker-compose $(COMPOSE_FILES) up -d --build
+
+# Reload Kong by restarting the container to apply declarative config changes
+kong-sync:
+	@echo "Reloading Kong to apply declarative config changes..."
+	docker-compose $(COMPOSE_FILES) restart kong-gw

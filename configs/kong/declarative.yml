@@ -1,0 +1,52 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+- name: auth-service
+  url: http://auth-service:80
+  routes:
+  - name: auth-routes
+    paths:
+    - /v1/auth
+
+- name: user-service-swagger
+  url: http://user-service:80
+  routes:
+  - name: user-swagger-routes
+    paths:
+    - /v1/users-swagger
+
+- name: user-service
+  url: http://user-service:80
+  routes:
+  - name: user-routes
+    paths:
+    - /v1/users
+
+plugins:
+  - name: jwt
+    service: user-service
+    enabled: true
+  - name: jwt-claims
+    enabled: true
+    service: user-service
+    config:
+      claims:
+      - path: sub
+        output_header: X-JWT-sub
+      - path: role
+        output_header: X-JWT-role
+  - name: opa-auth
+    enabled: true
+    service: user-service
+    config:
+      url: http://auth-service/internal/validate
+      role_header_name: X-JWT-role
+      sub_header_name: X-JWT-sub
+    
+
+consumers:
+  - username: auth-service
+    jwt_secrets:
+      - key: auth-service
+        secret: test-secret

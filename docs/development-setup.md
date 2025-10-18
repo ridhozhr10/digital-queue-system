@@ -24,6 +24,7 @@ Run the following commands from the project root:
 - `make compose-logs`: To view the logs from all running services.
 - `make compose-ps`: To list the running Docker containers.
 - `make compose-rebuild`: To rebuild and start all services.
+- `make kong-sync`: To sync the declarative Kong configuration (`configs/kong/declarative.yml`) with the database.
 
 After running `make compose-up`, the following services will be available:
 

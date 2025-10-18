@@ -43,6 +43,8 @@ services:
       - app-net
     depends_on:
       - postgres_db
+    volumes:
+      - ../api/user-service.yaml:/app/api/user-service.yaml
     command: ["./http-service", "user-service", "-p", "80"]
 
   auth-service:
@@ -56,6 +58,8 @@ services:
       DATABASE_URL: postgres://queuesystem:qweQWE123!%40%23@postgres_db:5432/queuesystem?sslmode=disable
     ports:
       - "8080:80"
+    volumes:
+      - ../api/auth-service.yaml:/app/api/auth-service.yaml
     networks:
       - app-net
     depends_on:
